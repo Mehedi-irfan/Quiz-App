@@ -17,3 +17,13 @@ body {
   border-color: #f4bec3;
   color: #721c24;
 }
+/* border border-gray-300 rounded px-4 py-1 w-full text-start font-medium bg-gray-100 */
+.btn {
+  border: 1px solid rgb(155, 153, 153);
+  border-radius: 5px;
+  padding: 4px 16px;
+  width: 100%;
+  text-align: start;
+  font-weight: 500;
+  background-color: rgba(173, 171, 171, 0.199);
+}
