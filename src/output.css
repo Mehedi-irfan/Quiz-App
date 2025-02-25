@@ -398,7 +398,7 @@ body {
   background-color: #dad5fd;
 }
 .correct {
-  background-color: #d4edda;
+  background-color: #abf3bb;
   border-color: #b7e1c1;
   color: #155724;
 }
@@ -414,7 +414,11 @@ body {
   width: 100%;
   text-align: start;
   font-weight: 500;
-  background-color: rgba(173, 171, 171, 0.199);
+  cursor: pointer;
+}
+ul {
+  list-style: none;
+  background-color: transparent;
 }
 @property --tw-space-y-reverse {
   syntax: "*";
