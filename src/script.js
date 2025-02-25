@@ -1,4 +1,5 @@
 const optionContainer = document.getElementById("option-container");
+const nextBtn = document.getElementById("nextBtn");
 let quizCategory = "programming";
 
 const getRandomQuestion = () => {
@@ -25,3 +26,4 @@ const renderQuestion = () => {
 };
 
 renderQuestion();
+nextBtn.addEventListener("click", renderQuestion);
