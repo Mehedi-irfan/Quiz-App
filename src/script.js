@@ -1,11 +1,51 @@
 const optionContainer = document.getElementById("option-container");
 const nextBtn = document.getElementById("nextBtn");
 const questionIndex = document.getElementById("question_index");
+const timeDuration = document.querySelector(".time-duration");
+const resultContainer = document.getElementById("result-container");
+const quizContainer = document.getElementById("quiz-container");
+const configContainer = document.getElementById("config-container");
 
+const QUIZ_TIME = 10;
+let currentTime = QUIZ_TIME;
+let timer = null;
 let quizCategory = "programming";
-let questionNumber = 10;
+let questionNumber = 5;
 let currentQuestion = null;
 const questionHistoryIndex = [];
+let countCorrectAnswer = 0;
+
+const showQuizResult = () => {
+  resultContainer.classList.remove("hidden");
+  resultContainer.classList.add("flex");
+  quizContainer.classList.add("hidden");
+
+  const correctAnswer = ` You Answer ${countCorrectAnswer} out of ${questionNumber} questions correctly, great offer`;
+  document.getElementById("showing-result").innerHTML = correctAnswer;
+};
+
+const resetTime = () => {
+  clearInterval(timer);
+  currentTime = QUIZ_TIME;
+  timeDuration.textContent = `${currentTime}s`;
+};
+
+const startTime = () => {
+  timer = setInterval(() => {
+    currentTime--;
+    timeDuration.textContent = `${currentTime}s`;
+    if (currentTime <= 0) {
+      clearInterval(timer);
+      highLightCorrectAnswer();
+      optionContainer.querySelectorAll(".answer-option").forEach((option) => {
+        option.classList.add("pointer-events-none");
+        option.classList.add("cursor-no-drop");
+      });
+      nextBtn.classList.remove("hidden");
+      nextBtn.classList.add("flex");
+    }
+  }, 1000);
+};
 
 const getRandomQuestion = () => {
   const randomCategory =
@@ -17,7 +57,7 @@ const getRandomQuestion = () => {
     questionHistoryIndex.length >=
     Math.min(randomCategory.length, questionNumber)
   ) {
-    return console.log("quiz Complete");
+    return showQuizResult();
   }
 
   const availableIndex = randomCategory.filter((_, index) => {
@@ -41,11 +81,12 @@ const highLightCorrectAnswer = () => {
 };
 
 const handleAnswer = (option, answerIndex) => {
+  clearInterval(timer);
   // console.log(option);
   const isCorrect = currentQuestion.correctAnswer === answerIndex;
   option.classList.add(isCorrect ? "correct" : "incorrect");
 
-  !isCorrect ? highLightCorrectAnswer() : "";
+  !isCorrect ? highLightCorrectAnswer() : countCorrectAnswer++;
 
   const iconHtml = `<span>${
     isCorrect
@@ -80,7 +121,20 @@ const renderQuestion = () => {
     optionContainer.appendChild(li);
     li.addEventListener("click", () => handleAnswer(li, index));
   });
+  resetTime();
+  startTime();
+};
+
+const resetQuiz = () => {
+  resetTime();
+  countCorrectAnswer = 0;
+  questionHistoryIndex.length = 0;
+  resultContainer.classList.remove("flex");
+  resultContainer.classList.add("hidden");
+  configContainer.classList.remove("hidden");
+  configContainer.classList.add("flex");
 };
 
 renderQuestion();
 nextBtn.addEventListener("click", renderQuestion);
+document.getElementById("try-again").addEventListener("click", resetQuiz);
