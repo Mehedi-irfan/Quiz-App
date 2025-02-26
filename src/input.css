@@ -27,6 +27,9 @@ body {
   font-weight: 500;
   /* background-color: rgba(173, 171, 171, 0.199); */
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 ul {
   list-style: none;
